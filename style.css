@@ -1,0 +1,390 @@
+/*
+Theme Name: mota
+Theme URI: http://motaphoto.local/
+Author: Bidois Nicolas
+Author URI: .
+Description: Thème pour le cours "Perfectionnez-vous sur WordPress"
+Version: 1.0
+Tags: openclassrooms, mota, 
+Text Domain: mota
+*/
+
+
+body {
+    font-family: 'Space Mono', monospace;
+}
+
+/* Ajouter ces styles pour aligner les liens de navigation à droite */
+.navigation {
+    text-align: right;
+}
+
+.navigation a {
+    display: inline-block;
+    margin-right: 40px;
+    text-decoration: none; 
+    color: black;
+}
+
+/* Ajoutez ces styles pour aligner l'image à gauche */
+#menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 6%;
+}
+.menu {
+    display: flex;
+}
+
+/* Supprime le marqueur spécifiquement pour les listes non ordonnées */
+ul {
+    list-style-type: none;
+}
+
+.logo {
+    margin-left: 40%;
+    margin-top: 11%
+}
+
+
+/*footer*/
+.mentions {
+    text-align: center;
+    border-top: 2px solid black;
+    padding-top: 1%;
+}
+
+.mentions a {
+    text-decoration: none;
+    color: black;
+    padding-right: 5%;
+}
+#menu-footer {
+    padding-left: 27%;
+
+}
+#menu-item-17, #menu-item-18, #menu-item-19 {
+    width: 21%;
+
+}
+
+/*modal*/
+#modal-contact {
+    text-align: center;
+}
+.popup-overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:#000000d2;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    z-index: 999; /* à enlever */
+    top:0;
+    left:0;
+}
+
+.wpcf7 {
+    width: 38%;
+    height: 79%;
+    padding-top: 5%;
+    background-color: white;
+}
+.wpcf7-form-control {
+    border-radius: 7px;
+    height: 30px;
+    width: 263px;
+    border: #B8BBC2 1px solid;
+}
+.wpcf7-textarea {
+    height: 15em;
+}
+.wpcf7-submit {
+    background-color: #D8D8D8;
+    height: 50px;
+    border-radius: 2px;
+    margin-bottom: 23px;
+}
+.pos {
+    margin-left: 10%;
+}  
+.form-text {
+    right: 21%;
+    position: relative;
+    top: 11px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.form-text2 {
+    right: 19%;
+    position: relative;
+    top: 11px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.form-text3 {
+    right: 17%;
+    position: relative;
+    top: 11px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.form-text4 {
+    right: 18%;
+    position: relative;
+    top: 11px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.ui-dialog-titlebar {
+    display: none;
+}
+.titre-form {
+    position: fixed;
+    font-size: 58px;
+    font-style: italic;
+    overflow: hidden;
+    width: 38%;
+    bottom: 80%;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+.t-ajust {
+    bottom: 74%;
+}
+
+.popup-overlay {
+    animation: moveUp 1.5s ease forwards, fadeIn 1.5s ease forwards;
+    animation-delay: 1s, 1.5s;
+    opacity: 0;
+}
+
+.fade-out-overlay {
+    animation: fadeOut 2s ease forwards;
+}
+
+@keyframes moveUp {
+    from {
+        transform: translateY(250px); /* Position initiale en bas */
+    }
+    to {
+        transform: translateY(0); /* Position finale en haut */
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.photo-info-container {
+    display: flex;
+    height: 39em;
+}
+.info-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    border-bottom: 2px solid black;
+    padding-bottom: 25px;
+    margin-bottom: 6%;
+    margin-left: 2%;
+    width: 48%;
+}
+/* Ajoutez ces styles dans votre fichier CSS pour styliser le bloc de photo */
+.photo-block {
+    width: 50%;
+    height: 100vh;
+    left: 0.5%;
+    position: relative;
+}
+
+.full-photo {
+    width: 100%;
+    object-fit: scale-down;
+    top: 4%;
+    position: absolute;
+}
+
+.fullscreen-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Caché par défaut */
+}
+
+.photo-block:hover .fullscreen-icon {
+    display: block; /* Afficher l'icône au survol du bloc de photo */
+}
+
+.bloc {
+    height: 118px;
+    display: flex;
+    margin-top: -2em;
+}
+
+.text-1 {
+    padding: 0px 22px;
+}
+.entry-title {
+    font-size: 66px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 58px;
+}
+
+
+/* classes pour le format portrait */
+.portrait-full-photo {
+    width: 100%;
+    object-fit: scale-down;
+    margin-bottom: 7%;
+}
+
+.portrait-photo-block {
+    left: 0.5%;
+    position: relative;
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+.photo-info-container-portrait {
+    display: flex;
+}
+
+
+
+/**/
+.fleches {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 40em;
+    z-index: 1;
+    margin-top: 2em;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    margin-right: 15px
+}
+
+.thumbnail {
+    display: flex;
+    width: 81px;
+    Height: 71px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 72em;
+    right: 5em;
+    object-fit: cover;
+}
+.paysage-thumbnail{
+    display: flex;
+    width: 81px;
+    Height: 71px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 38em;
+    right: 5em;
+    object-fit: cover;
+}
+
+.arrow {
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    line-height: 1;
+}
+
+/*photo-apparenté*/
+.photo-apparenté {
+    padding-left: 7em;
+    padding-bottom: 4em;
+    width: 564px;
+    height: 495px;
+    object-fit: cover;
+}
+
+.bar-photos-apparentées {
+    border-top: 2px solid black;
+    width: 88em;
+    margin-left: 2em;
+}
+.photos-apparentées h3 {
+    padding: 2em;
+    font-size: 18px;
+    font-weight: 400;
+}
+.afficher-toutes-les-photos {
+    margin-left: 45em;
+}
+button:hover {
+    background-color: black;
+    color: white; /* Vous pouvez également changer la couleur du texte au survol si nécessaire */
+}
+.navigation a:hover {
+    font-weight: 600;
+}
+
+.photo-apparenté2 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-left: 10%;
+    padding-top: 2%;
+}
+.photo-apparenté2 img {
+    width: 564px;
+    height: 495px;
+    object-fit: cover;
+    text-align: center;
+    padding-top: 0%;
+    margin-top: -1em;
+    margin: -1em -4em 0px 0em;
+}
+
+/*hero header*/
+.hero-container {
+    width: 100%;
+    height: 962px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    
+}
+
+
+.event {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6em;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0); /* Couleur du texte transparente (blanc avec opacité 0) */
+    -webkit-text-stroke: 1px white; /* Contour blanc autour du texte */
+    position: absolute;
+}
+
+
+
+
+

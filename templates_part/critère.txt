@@ -1,0 +1,90 @@
+Critère : -Site wp vlidé si cpt dédié
+-taxonomie fait
+-champ acf type dans acf associer au cpt des photo
+contenue fournie corrextement mis
+API = fait que lorsque cque c'est nécessaire ( chargement page, clique ou filtre)
+code intéragie correctement avec avec L'API
+-au clique sur charger plus les images sont récupéré dynamiqueent avec ajax
+-Rendre les templates de contenue dynamique ( design des pages ok , filtre trie et pagination fonctionnele, donné des contenue saisi son bien afficher dynamiquement)
+Modale de contact fonctionne bien
+-le fichier de script js est bien appeller graçe a la fonction enqueu script 
+Green code. ( def green code, intéré, avantage inconvé. 
+Discusions sur l'ergonomie WP.
+Fluidité et annimations.
+Maintenabilité du code .
+
+
+
+<div>
+    <div class="bar-photos-apparentées"></div>
+    <h2>VVOUS AIMEREZ AUSSI</h2>
+    <div class="photos-apparentées">
+        <?php
+        function display_related_photos()
+        {
+            $post_id = get_the_ID();
+            $terms = get_the_terms($post_id, 'categorie');
+
+            // Check if terms are found
+            if ($terms && !is_wp_error($terms)) {
+                $term_name = $terms[0]->name;
+
+                if ($term_name) {
+        
+                    $related_posts_args = array(
+
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => "categorie",
+                                'field' => 'slug',
+                                'terms' => $term_name,
+                            ),
+                        ),
+                    );
+                    $related_posts_query = new WP_Query($related_posts_args);
+
+
+
+                    // Vérifier s'il y a des articles dans la même catégorie
+                    if ($related_posts_query->have_posts()) {
+                        while ($related_posts_query->have_posts()) {
+                            $related_posts_query->the_post();
+
+                            // Récupérer le contenu de l'article
+                            $content = get_post_field('post_content', get_the_ID());
+
+                            // Utiliser une expression régulière pour extraire les balises <img>
+                            preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches);
+
+                            // Afficher la première image trouvée
+                            if (!empty($matches[1])) {
+                                // Utiliser la classe dans votre balise img en appelant la fonction
+                                echo '<img src="' . esc_url($matches[1][0]) . '" class="' . get_full_photo_classes() . '" alt="' . esc_attr(get_the_title()) . '" />';
+                            } else {
+                                echo 'Aucune image trouvée dans le contenu de l\'article.';
+                            }
+                        }
+                        wp_reset_postdata(); // Réinitialiser les données de l'article
+                    } else {
+                        echo 'Aucune photo apparentée trouvée dans la même catégorie.';
+                    }
+                } else {
+                    echo 'Aucune catégorie trouvée pour cet article.';
+                }
+            } else {
+                echo 'Erreur lors de la récupération des catégories.';
+            }
+        }
+
+        // Appeler la fonction pour afficher les photos apparentées
+        display_related_photos();
+
+
+
+
+        ?>
+
+
+
+
+    </div>
