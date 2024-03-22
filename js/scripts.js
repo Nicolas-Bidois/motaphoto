@@ -76,6 +76,12 @@ jQuery(document).ready(function($) {
 /////////////////////////////////////////////////////////
 
 
+
+
+
+
+
+/*
 (function($) {
     $(document).ready(function() {
         var page = 1; // Le numéro initial de page
@@ -96,7 +102,7 @@ jQuery(document).ready(function($) {
                 success: function(response) {
                     // Convertissez la réponse en chaîne pour la recherche
                     var responseString = JSON.stringify(response);
-
+console.log(response)
                     // Trouvez l'index du premier caractère '[' (début du tableau JSON)
                     var startIndex = responseString.indexOf('[');
 
@@ -109,7 +115,7 @@ jQuery(document).ready(function($) {
                             var jsonData = JSON.parse(jsonString);
                             console.log(jsonData);
 
-                            // Assurez-vous d'ajuster cette partie en fonction de la structure de vos données
+                            
                             jsonData.forEach(function(photo) {
                                 // Ajoutez la logique pour afficher chaque photo
                                 $('.photo-apparente2').append('<img src="' + photo.source_url + '" alt="' + photo.alt_text + '">');
@@ -127,7 +133,7 @@ jQuery(document).ready(function($) {
                     console.error('Erreur Ajax:', textStatus, errorThrown);
                     // Affichez la réponse complète du serveur dans la console en cas d'erreur
                     console.log('Réponse du serveur:', jqXHR.responseText);
-                    // Ajoutez ici votre propre logique de gestion d'erreur, par exemple, affichez un message d'erreur à l'utilisateur
+                    
                     $('.photo-apparente2').append('<p>Erreur lors du chargement des photos.</p>');
                 }
             });
@@ -139,5 +145,5 @@ jQuery(document).ready(function($) {
         });
     });
 })(jQuery);
-
+*/
 

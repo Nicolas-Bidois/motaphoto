@@ -3,7 +3,7 @@
     while (have_posts()):
         the_post();
         ?>
-        <div class="<?php echo esc_attr(get_image_container_classes()); ?>">
+        <div class="<?php echo esc_attr(get_image_container_classes()); ?> container">
             <div class="info-block">
                 <h1 class="entry-title">
                     <?php the_title(); ?>
@@ -44,7 +44,7 @@
                 ?>
             </div>
         </div>
-        <div class="bloc">
+        <div class="bloc container">
             <p class="text-1">Cette photo vous intéresse ?</p>
             <button type="button" class="pos contact-link popup contact-button wpcf7-form-control wpcf7-submit"
                 data-photo-ref="<?php echo get_post_meta(get_the_ID(), 'reference_photo', true); ?>">
@@ -59,54 +59,60 @@ $previous_photo_id = is_object($previous_photo) ? $previous_photo->ID : null;
 $next_photo_id = get_next_post() ? get_next_post()->ID : null;
 
 // Récupérer le contenu HTML de l'article suivant ou précédent
+$html_content_next = '';
+$html_content_previous = '';
+
 if ($next_photo_id) {
-    $html_content = get_post_field('post_content', $next_photo_id);
-} elseif ($previous_photo_id) {
-    $html_content = get_post_field('post_content', $previous_photo_id);
-} else {
-    $html_content = ''; // Si ni l'article suivant ni l'article précédent n'existent pas, définissez la variable $html_content sur une chaîne vide
+    $html_content_next = get_post_field('post_content', $next_photo_id);
+}
+
+if ($previous_photo_id) {
+    $html_content_previous = get_post_field('post_content', $previous_photo_id);
 }
 
 // Utilisez preg_match_all pour extraire les URLs d'image
-$image_urls = array();
-preg_match_all('/<img[^>]+src=([\'"])(?<src>.+?)\1/i', $html_content, $matches);
-$image_urls = $matches['src'];
+$image_urls_next = array();
+preg_match_all('/<img[^>]+src=([\'"])(?<src>.+?)\1/i', $html_content_next, $matches_next);
+$image_urls_next = $matches_next['src'];
+
+// Utilisez preg_match_all pour extraire les URLs d'image
+$image_urls_previous = array();
+preg_match_all('/<img[^>]+src=([\'"])(?<src>.+?)\1/i', $html_content_previous, $matches_previous);
+$image_urls_previous = $matches_previous['src'];
 ?>
 
 <div class="fleches">
+    <div class="deusfleches">
     <?php if ($previous_photo_id): ?>
         <a href="<?php echo get_permalink($previous_photo_id); ?>" class="nav-link arrow-left" title="Photo précédente">
-            <?php echo wp_get_attachment_image(get_post_thumbnail_id($previous_photo_id), array(81, 71), false, array('class' => 'thumbnail')); ?>
             <span class="arrow">&#8592;</span>
         </a>
     <?php endif; ?>
 
     <?php if ($next_photo_id): ?>
         <a href="<?php echo get_permalink($next_photo_id); ?>" class="nav-link arrow-right" title="Photo suivante">
-            <?php echo wp_get_attachment_image(get_post_thumbnail_id($next_photo_id), array(81, 71), false, array('class' => 'thumbnail')); ?>
             <span class="arrow">&#8594;</span>
         </a>
     <?php endif; ?>
+    </div>
     <div id="thumbnail-container">
-        <?php
-        // Afficher les images extraites par preg_match_all
-        foreach ($image_urls as $url) {
-            echo '<img src="' . $url . '" class="thumbnail" />';
-        }
-        ?>
     </div>
 </div>
 
 <script>
-// Événement au survol de la flèche de droite
-document.querySelector('.arrow-right').addEventListener('mouseover', function() {
-    showThumbnail('next');
-});
+    <?php if ($previous_photo_id): ?>
+    // Événement au survol de la flèche de gauche
+    document.querySelector('.arrow-left').addEventListener('mouseover', function () {
+        showThumbnail('previous');
+    });
+    <?php endif; ?>
 
-// Événement au survol de la flèche de gauche
-document.querySelector('.arrow-left').addEventListener('mouseover', function() {
-    showThumbnail('previous');
-});
+    <?php if ($next_photo_id): ?>
+    // Événement au survol de la flèche de droite
+    document.querySelector('.arrow-right').addEventListener('mouseover', function () {
+        showThumbnail('next');
+    });
+    <?php endif; ?>
 
 function showThumbnail(direction) {
     var thumbnailContainer = document.getElementById('thumbnail-container');
@@ -115,22 +121,21 @@ function showThumbnail(direction) {
     var img = new Image();
     img.className = 'thumbnail';
 
-    var imageUrl = '';
+    var imageUrls = (direction === 'next') ? <?php echo json_encode($image_urls_next); ?> : <?php echo json_encode($image_urls_previous); ?>;
 
-    if (direction === 'next') {
-        imageUrl = "<?php echo $next_photo_id ? esc_url(wp_get_attachment_url(get_post_thumbnail_id($next_photo_id))) : ''; ?>";
-    } else if (direction === 'previous') {
-        imageUrl = "<?php echo $previous_photo_id ? esc_url(wp_get_attachment_url(get_post_thumbnail_id($previous_photo_id))) : ''; ?>";
-    }
+    if (imageUrls.length > 0) {
+        var imageUrl = imageUrls[0]; // Prenez la première image trouvée
 
-    if (imageUrl) {
-        img.src = imageUrl;
-        thumbnailContainer.appendChild(img);
+        if (imageUrl) {
+            img.src = imageUrl;
+            thumbnailContainer.appendChild(img);
+        }
     } else {
-        console.error('Image URL not found.');
+        console.error('Aucune URL d\'image trouvée.');
     }
 }
 </script>
+
 
 
 
@@ -148,8 +153,8 @@ function showThumbnail(direction) {
 else:
     echo 'Aucun article trouvé.';
 endif; ?>
-<div class="bar-photos-apparentées"></div>
-    <div class="photos-apparentées">
+<div class="bar-photos-apparentées container"></div>
+    <div class="photos-apparentées container">
         <?php get_template_part('templates_part/photo_block'); ?>
     </div>
 <?php get_footer(); ?>

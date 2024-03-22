@@ -1,4 +1,6 @@
-<?php function enregistrement_des_menus()
+<?php
+add_theme_support( 'post-thumbnails' ); 
+ function enregistrement_des_menus()
 {
     register_nav_menus(
         array(
@@ -25,8 +27,8 @@ add_action('after_setup_theme', 'enregistrement_des_menus');
 <?php function ajouter_scripts()
 {
     wp_enqueue_script('scripts', get_template_directory_uri() . '/js/scripts.js', array('jquery'), '', true);
-}
-add_action('wp_enqueue_scripts', 'ajouter_scripts');
+}/*
+add_action('wp_enqueue_scripts', 'ajouter_scripts');*/
 ?>
 
 <?php // Fonction pour récupérer les classes du format de l'image pour le conteneur
@@ -71,6 +73,34 @@ function get_full_photo_classes() {
     return implode(' ', $classes);
 } 
 ?>
+
+<?php
+// Fonction pour récupérer les classes pour un autre élément en fonction du format de l'image
+function get_photo_couverture_classes() {
+    // Récupérer le format de l'image
+    $image_format = get_the_terms(get_the_ID(), 'format')[0]->name;
+
+    // Définir des classes spécifiques selon le format de l'image pour l'autre élément
+    $classes = array();
+
+    if ($image_format === 'PAYSAGE') {
+        // Ajouter les classes pour le format paysage
+        $classes[] = 'paysage-couverture';
+    } elseif ($image_format === 'PORTRAIT') {
+        // Ajouter les classes pour le format portrait
+        $classes[] = 'portrait-couverture';
+    } else {
+        // Ajouter une classe par défaut si aucun cas n'est rencontré
+        $classes[] = 'autre-format-couverture';
+    }
+
+    // Retourner les classes sous forme de chaîne séparée par des espaces
+    return implode(' ', $classes);
+}
+
+?>
+
+
 <?php
 // Fonction pour récupérer les classes pour un autre élément en fonction du format de l'image
 function get_thumbnail_classes() {
@@ -194,6 +224,6 @@ function charger_plus_photos_script() {
 
 // Hook pour charger le script et définir la variable ajaxurl
 add_action('wp_enqueue_scripts', 'charger_plus_photos_script');
-?>
+
 
 

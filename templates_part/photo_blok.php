@@ -18,13 +18,8 @@ function afficher_image_avec_classe_photo_couverture() {
         // Récupérer l'URL de l'image 
         $image_url = get_the_post_thumbnail_url(get_the_ID(), '');
 
-        // Vérifier si une image existe
-        if ($image_url) {
-            // Afficher l'image avec la classe .photo-couverture
-            echo '<img src="' . esc_url($image_url) . '" alt="Image de l\'article" class="photo-couverture">';
-        }
 
-        // Afficher le contenu de l'article
+    
         the_content();
 
     endwhile;
@@ -36,4 +31,4 @@ function afficher_image_avec_classe_photo_couverture() {
 // Appeler la fonction pour afficher l'image avec la classe ajoutée
 afficher_image_avec_classe_photo_couverture();
 
-?>
+

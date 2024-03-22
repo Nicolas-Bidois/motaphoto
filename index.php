@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 <a href=""></a>
-<div>
+<div class="hero_head">
     
     <h1  class=" hero-container event">PHOTOGRAPHE EVENT</h1>
     <?php get_template_part('templates_part/photo_blok'); ?>
