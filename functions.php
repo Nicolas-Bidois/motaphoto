@@ -213,17 +213,42 @@ function filter_custom_photos() {
 ?>
 
 <?php
-// Enregistrez le script JavaScript et définissez la variable ajaxurl
-function charger_plus_photos_script() {
-    // Enregistrez le script JavaScript dans le footer
-    wp_enqueue_script('charger_plus_photos', get_template_directory_uri() . '/js/scripts.js', array('jquery'), null, true);
+// Fonction pour charger plus d'images
+function charger_plus_photos() {
+    // Récupérer les paramètres envoyés par la requête AJAX
+    $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
+    $images_per_page = isset($_POST['images_per_page']) ? intval($_POST['images_per_page']) : 8;
+    $displayed_ids = isset($_POST['displayed_ids']) ? explode(',', $_POST['displayed_ids']) : array();
 
-    // Définissez la variable ajaxurl pour le script JavaScript
-    wp_localize_script('charger_plus_photos', 'frontendajax', array('ajaxurl' => admin_url('admin-ajax.php')));
+    // Arguments de requête pour récupérer les images
+    $args = array(
+        'post_type' => 'photo', // Le type de publication est 'attachment' pour les images
+        'posts_per_page' => $images_per_page,
+        'offset' => $offset,
+        'post__not_in' => $displayed_ids, // Exclure les images déjà affichées
+        'orderby' => 'rand' // Tri aléatoire
+    );
+
+    // Effectuer la requête WP_Query pour récupérer les images
+    $query = new WP_Query($args);
+
+    // Boucle WordPress pour afficher les images
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $image_url = wp_get_attachment_image_src(get_the_ID(), 'full');
+            // Afficher l'image avec un attribut data-image-id pour identifier chaque image
+            echo '<img src="' . esc_url($image_url[0]) . '" alt="Image" class="photo-apparenté" data-image-id="' . get_the_ID() . '">';
+        }
+        wp_reset_postdata();
+    }
+    exit; // Arrêter l'exécution après avoir renvoyé les images
 }
 
-// Hook pour charger le script et définir la variable ajaxurl
-add_action('wp_enqueue_scripts', 'charger_plus_photos_script');
+// Ajouter une action pour le traitement AJAX
+add_action('wp_ajax_charger_plus_photos', 'charger_plus_photos');
+add_action('wp_ajax_nopriv_charger_plus_photos', 'charger_plus_photos');
+
 
 
 

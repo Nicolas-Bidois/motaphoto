@@ -80,63 +80,40 @@ jQuery(document).ready(function($) {
 
 
 
-
-/*
 (function($) {
     $(document).ready(function() {
-        var page = 1; // Le numéro initial de page
-        var perPage = 8; // Nombre d'articles par page
-
-        // Fonction pour charger plus de photos
+        var offset = 8; // Le nombre initial d'images affichées
+        var imagesPerPage = 8; // Nombre d'images à afficher à chaque requête
+        var displayedIds = []; // Tableau pour stocker les ID des images déjà affichées
+    
+        // Fonction pour charger plus d'images
         function chargerPlus() {
             $.ajax({
-                url: 'http://motaphoto.local/wp-json/wp/v2/media',
-                type: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                },
+                url: window.frontendajax ? frontendajax.ajaxurl : null,
+                type: 'POST',
                 data: {
-                    per_page: perPage,
-                    page: page
+                    action: 'charger_plus_photos',
+                    offset: offset,
+                    images_per_page: imagesPerPage,
+                    displayed_ids: displayedIds.join(',') // Envoyez les ID déjà affichés au serveur
                 },
                 success: function(response) {
-                    // Convertissez la réponse en chaîne pour la recherche
-                    var responseString = JSON.stringify(response);
-console.log(response)
-                    // Trouvez l'index du premier caractère '[' (début du tableau JSON)
-                    var startIndex = responseString.indexOf('[');
-
-                    if (startIndex !== -1) {
-                        // Extrait le JSON à partir de cet index jusqu'à la fin
-                        var jsonString = responseString.substring(startIndex);
-
-                        try {
-                            // Parsez le JSON extrait
-                            var jsonData = JSON.parse(jsonString);
-                            console.log(jsonData);
-
-                            
-                            jsonData.forEach(function(photo) {
-                                // Ajoutez la logique pour afficher chaque photo
-                                $('.photo-apparente2').append('<img src="' + photo.source_url + '" alt="' + photo.alt_text + '">');
-                            });
-
-                            page++; // Mettez à jour le numéro de page pour la prochaine requête
-                        } catch (error) {
-                            console.error('Erreur lors de l\'analyse du JSON:', error);
-                        }
-                    } else {
-                        console.error('Aucun tableau JSON trouvé dans la réponse.');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('Erreur Ajax:', textStatus, errorThrown);
-                    // Affichez la réponse complète du serveur dans la console en cas d'erreur
-                    console.log('Réponse du serveur:', jqXHR.responseText);
-                    
-                    $('.photo-apparente2').append('<p>Erreur lors du chargement des photos.</p>');
+                    $('.photo-apparenté2').append(response);
+                    offset += imagesPerPage; // Mettez à jour l'offset pour la prochaine requête
+                    updateDisplayedIds(response); // Mettez à jour les ID affichés
                 }
             });
+        }
+
+        // Fonction pour mettre à jour les ID affichés
+        function updateDisplayedIds(response) {
+            // Récupérer les ID des nouvelles images
+            var newIds = $(response).find('.photo-apparenté').map(function() {
+                return $(this).data('image-id');
+            }).get();
+            // Concaténer les nouveaux IDs avec les IDs déjà affichés
+            displayedIds = displayedIds.concat(newIds);
+            console.log(response)
         }
 
         // Gérez le clic sur le bouton "Charger plus"
@@ -145,5 +122,5 @@ console.log(response)
         });
     });
 })(jQuery);
-*/
+
 

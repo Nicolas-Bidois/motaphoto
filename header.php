@@ -29,7 +29,11 @@
                     <?php
                     wp_nav_menu(array('theme_location' => 'menu-principal', 'menu_id' => 'menu-principal', ));
                     ?>
-                    
+                    <div class="burger">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    </div>
                         <div id="modal-contact">
                             <div class="popup-overlay">
                             <!-- Contenu de la fenêtre modale, y compris le formulaire de Contact Form 7 -->

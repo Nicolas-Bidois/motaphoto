@@ -405,4 +405,99 @@ button:hover {
 
 
 
+/* responsive mobile*/
 
+@media screen and (max-width: 767px) {
+    .photo-info-container {
+        flex-direction: column-reverse;
+    }
+    .menu-menu-principale-container {
+        display: none;
+    }
+    .burger {
+        padding-top: 1em;
+    }
+    #menu a {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .fleches {
+        display: none;
+    }
+    .info-block {
+        width: 100%;
+        align-items: center;
+    }
+    .bloc {
+    display: flex;
+    margin-top: 1em;
+    flex-direction: column;
+    align-items: center;
+    }
+    .line {
+        height: 3px;
+        background-color: #000;
+        display: block;
+        margin: auto;
+        margin-block: 2px;
+        width: 20px;
+    }
+
+    .photo-apparenté {
+        width: 317px;
+        height: 278px;
+    }
+    .photos-apparentées {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .photos-apparentées h3 {
+        padding-left: 3em;
+    }
+
+    .afficher-toutes-les-photos {
+        margin-left: 23px;
+    }
+    #menu-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }    
+
+    .photo-info-container-portrait {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .portrait-full-photo{
+        width: 93%;
+        object-fit: cover;
+        height: 100%;
+        padding-top: 33px;
+    }
+    .entry-title {
+        font-size: 50px;
+    }
+    .mentions a {
+        text-decoration: none;
+        color: black;
+        display: flex;
+        width: 196px;
+        height: 80px;
+        justify-content: center;
+    }
+    .mentions {
+        text-align: center;
+        border-top: 2px solid black;
+        padding-top: 1%;
+
+    }   
+    .photo-info-container {
+        margin-top: 9em;
+    } 
+    .photo-block{
+        width: 100%;
+        left: 0%;
+    }
+}
