@@ -3,7 +3,16 @@
 <div class="hero_head">
     
     <h1  class=" hero-container event">PHOTOGRAPHE EVENT</h1>
-    <?php get_template_part('templates_part/photo_blok'); ?>
+    <?php
+// Charger le contenu du fichier de modèle partiel dans un contexte isolé
+ob_start();
+include('templates_part/photo_block.php');
+ob_end_clean();
+
+// Appeler la fonction spécifique
+afficher_image_avec_classe_photo_couverture(); // Vous n'incluez que la fonction que vous souhaitez utiliser
+?>
+
 </div>
 <div>
 
@@ -38,7 +47,9 @@
 
 </div>
 <div class="photo-apparenté2">
-<?php get_template_part('templates_part/photo_bloc'); ?>
+<?php
+display_random_photos(); // Vous n'incluez que la fonction que vous souhaitez utiliser
+?>
 <div>
 <button id="charger-plus-btn">Charger plus</button>
 </div>

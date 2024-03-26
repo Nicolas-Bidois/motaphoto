@@ -155,6 +155,16 @@ else:
 endif; ?>
 <div class="bar-photos-apparentées container"></div>
     <div class="photos-apparentées container">
-        <?php get_template_part('templates_part/photo_block'); ?>
+    <?php
+// Charger le contenu du fichier de modèle partiel dans un contexte isolé
+ob_start();
+include('templates_part/photo_block.php');
+ob_end_clean();
+
+// Appeler la fonction spécifique
+display_related_photos(); // Vous n'incluez que la fonction que vous souhaitez utiliser
+?>
+
+
     </div>
 <?php get_footer(); ?>
