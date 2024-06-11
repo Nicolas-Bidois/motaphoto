@@ -9,9 +9,15 @@
                     <?php the_title(); ?>
                 </h1>
                 <p>RÉFÉRENCE :
-                    <?php echo get_post_meta(get_the_ID(), 'référence', true); ?>
-                    <script>var reference_data = <?php echo json_encode(get_reference_data()); ?>;</script>
-                </p>
+    <?php 
+    $nom_du_champ = 'reference';
+    $valeur_du_champ = get_field($nom_du_champ);
+    echo esc_html($valeur_du_champ);
+    ?>
+</p>
+<script>
+    var reference_data = <?php echo json_encode($valeur_du_champ); ?>;
+</script>
                 <p>CATÉGORIE :
                     <?php echo get_the_terms(get_the_ID(), 'categorie')[0]->name; ?>
                 </p>
@@ -19,10 +25,22 @@
                     <?php echo get_the_terms(get_the_ID(), 'format')[0]->name; ?>
                 </p>
                 <p>TYPE :
-                    <?php echo get_post_meta(get_the_ID(), 'type', true); ?>
+                    <?php $nom_du_champ = 'Type';
+                        $valeur_du_champ = get_field($nom_du_champ);
+                        echo $valeur_du_champ;
+                        ?>
+                 <p class="t-none">Titre :
+                    <?php $nom_du_champ = 'titre';
+                        $valeur_du_champ = get_field($nom_du_champ);
+                        echo $valeur_du_champ;
+                        ?>  
                 </p>
                 <p>ANNÉE :
-                    <?php echo get_post_meta(get_the_ID(), 'Année', true); ?>
+                <?php $nom_du_champ = 'date';
+                        $valeur_du_champ = get_field($nom_du_champ);
+                        echo $valeur_du_champ;
+                        ?>
+
                 </p>
                 <!-- Ajoutez d'autres informations spécifiques à votre type de contenu ici -->
             </div>
@@ -153,16 +171,14 @@ function showThumbnail(direction) {
 else:
     echo 'Aucun article trouvé.';
 endif; ?>
-<div class="bar-photos-apparentées container"></div>
+
+<div class="bar-photos-apparentées container">
+</div> 
     <div class="photos-apparentées container">
     <?php
 // Charger le contenu du fichier de modèle partiel dans un contexte isolé
-ob_start();
-include('templates_part/photo_block.php');
-ob_end_clean();
+include ('templates_part/photo_block.php')
 
-// Appeler la fonction spécifique
-display_related_photos(); // Vous n'incluez que la fonction que vous souhaitez utiliser
 ?>
 
 

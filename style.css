@@ -10,11 +10,14 @@ Text Domain: mota
 */
 
 .container {
+    display: flex;
     max-width: 1140px;
     margin: 0 auto ;
+    padding-top: 3em;
 }
 body {
     font-family: 'Space Mono', monospace;
+    margin: 0px;
 }
 
 /* Ajouter ces styles pour aligner les liens de navigation à droite */
@@ -52,10 +55,12 @@ ul {
 
 
 /*footer*/
+
 .mentions {
     text-align: center;
     border-top: 2px solid black;
     padding-top: 1%;
+    margin-top: 6em;
 }
 
 .mentions a {
@@ -64,10 +69,10 @@ ul {
     padding-right: 5%;
 }
 #menu-footer {
-    padding-left: 27%;
+    padding-left: 27em;
 
 }
-#menu-item-17, #menu-item-18, #menu-item-19 {
+#menu-item-97, #menu-item-98, #menu-item-99 {
     width: 21%;
 
 }
@@ -91,7 +96,7 @@ ul {
 
 .wpcf7 {
     width: 38%;
-    height: 79%;
+    height: 81%;
     padding-top: 5%;
     background-color: white;
 }
@@ -221,7 +226,7 @@ ul {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    top: 4%;
+    padding-left: 33px;
     
 }
 
@@ -253,13 +258,158 @@ ul {
     line-height: 58px;
 }
 
+/* styles pour overlay */
+.photo-wrapper {
+    width: 560px;
+    height: 495px;
+    position: relative;
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.imginfoex {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 560px;
+    height: 495px;;
+    background: rgba(0, 0, 0, 0.5); /* Teinte foncée transparente */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo-ajust:hover .imginfoex {
+    opacity: 1;
+}
+
+.expand-icon, .eye, .reference, .term {
+    position: absolute;
+    color: #fff;
+    font-size: 16px;
+}
+.slug {
+    display: none;
+}
+.expand-icon {
+    top: 10px;
+    right: 10px;
+    background: black;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.eye {
+    font-size: 25px;
+}
+
+.reference {
+    bottom: 10px;
+    left: 10px;
+}
+
+.term {
+    bottom: 10px;
+    right: 10px;
+}
+
+.lightbox-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Fond noir transparent à 80% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lightbox__container {
+    position: relative;
+}
+
+.lightbox__close,
+.lightbox__next,
+.lightbox__prev {
+    position: absolute;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.lightbox__close {
+    top: 10px;
+    right: 10px;
+}
+
+.lightbox__next {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.lightbox__prev {
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
+
+.lightbox-container img {
+    width: 564px;
+    height: 495px;
+    object-fit: cover;
+}
+
+.lightbox__reference{
+    position: fixed;
+    right: 62%;
+}
+.lightbox__term {
+    position: fixed;
+    right: 35%;
+}
+.lightbox__reference,
+.lightbox__term {
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+    text-align: center;
+    top: 82%;
+}
+.fa-arrow-right, .fa-arrow-left {
+    padding: 10px;
+}
 
 /* classes pour le format portrait */
 .portrait-full-photo {
     width: 100%;
     object-fit: cover;
     height: 100%;
-    padding-top: 33px;
+    padding-left: 33px;
 }
 
 .portrait-photo-block {
@@ -325,8 +475,6 @@ ul {
 
 /*photo-apparenté*/
 .photo-apparenté {
-    padding-right: 10px;
-    padding-bottom: 4em;
     width: 560px;
     height: 495px;
     object-fit: cover;
@@ -338,9 +486,9 @@ ul {
     padding-bottom: 2em
 
 }
-.photos-apparentées h3 {
-    padding: 2em 0em;
-    font-size: 18px;
+.titre-random {
+    margin: 0em 0em 4em 0em;    ;
+    font-size: 24px;
     font-weight: 400;
 }
 .afficher-toutes-les-photos {
@@ -353,24 +501,68 @@ button:hover {
 .navigation a:hover {
     font-weight: 600;
 }
-
+.espace-photo-index {
+    padding-bottom: 2em;
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+}
+.photo-index {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 .photo-apparenté2 {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding-left: 10%;
-    padding-top: 2%;
+    justify-content: center;
 }
 .photo-apparenté2 img {
-    width: 564px;
+    width: 560px;
     height: 495px;
     object-fit: cover;
     text-align: center;
-    padding-top: 0%;
-    margin-top: -1em;
-    margin: -1em -4em 0px 0em;
+}
+#category-filter, #format-filter, #order-filter {
+    width: 260px;
+    height: 42px;
+    border-radius: 8px;
+    border: 1.3px solid grey;
+    padding: 11px 18px 11px 18px;
+}
+#format-filter {
+    margin-right: 20em;
+}
+#order-filter {
+    margin-right: 15em;
+}
+#category-filter {
+    margin-left: 13em;
+}
+option {
+    background-color: white;
+    color: black;
+}
+.category-option {
+    background-color: red !important;
+    color: white;
 }
 
+.pos-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 3em;
+}
+#charger-plus-btn {
+    padding: 8px 15px 8px 15px;
+    width: 277px;
+    height: 50px;
+}
 /*hero header*/
 .hero-container {
     width: 100%;
@@ -380,8 +572,8 @@ button:hover {
     
 }
 .hero_head img {
-    width: 100%;
-    height: 100%;
+    width: 1440px;
+    height: 962px;
     object-fit: cover;
 }
 
@@ -394,7 +586,7 @@ button:hover {
 
 .event {
     display: flex;
-    top: 40%;
+    top: 50%;
     justify-content: center;
     font-size: 6em;
     font-style: italic;
@@ -403,8 +595,13 @@ button:hover {
     position: absolute;
 }
 
+.t-none {
+    display: none;
+}
 
-
+.hidden {
+    display: none;
+}
 
 /* responsive mobile*/
 
@@ -419,6 +616,7 @@ button:hover {
         padding-top: 1em;
     }
     #menu a {
+        width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
@@ -427,8 +625,13 @@ button:hover {
         display: none;
     }
     .info-block {
-        width: 100%;
-        align-items: center;
+        width: 93%;
+        align-items: flex-start;
+        text-align: start;
+        padding-left: 2em;
+    }
+    .text-1 {
+        padding: 0px;
     }
     .bloc {
     display: flex;
@@ -444,7 +647,15 @@ button:hover {
         margin-block: 2px;
         width: 20px;
     }
-
+    .container{
+        display: flex;
+        flex-direction: column-reverse;
+        padding-top: 1em;
+    }
+    .photo-wrapper{
+        width: 317px;
+        height: 278px;
+    }
     .photo-apparenté {
         width: 317px;
         height: 278px;
@@ -455,7 +666,8 @@ button:hover {
         align-items: center;
     }
     .photos-apparentées h3 {
-        padding-left: 3em;
+        padding-left: 1em;
+        margin-bottom: 2em;
     }
 
     .afficher-toutes-les-photos {
@@ -465,6 +677,10 @@ button:hover {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        padding: 0em 0em 0em 4em;
+    }
+    .mentions{
+        margin-top: 2em;
     }    
 
     .photo-info-container-portrait {
@@ -472,10 +688,14 @@ button:hover {
         flex-direction: column-reverse;
     }
     .portrait-full-photo{
-        width: 93%;
+        width: 88%;
         object-fit: cover;
         height: 100%;
         padding-top: 33px;
+    }
+    .full-photo {
+        width: 90%;
+        padding-left: 10px;
     }
     .entry-title {
         font-size: 50px;
@@ -500,5 +720,138 @@ button:hover {
     .photo-block{
         width: 100%;
         left: 0%;
+    }
+    .imginfoex{
+        display: none;
+    }
+
+    .navigation {
+        position: relative;
+    }
+    
+    /* Burger button styling */
+    header.menu-open {
+        position: fixed;
+        background: white;
+        height: 100%;
+        width: 100%;
+    }
+    .burger {
+        display: block;
+        cursor: pointer;
+        position: relative;
+        width: 30px;
+        height: 30px;
+        margin: 10px; /* Ajustez pour positionner le burger */
+    }
+    .burger .line {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #000; /* Ajustez selon votre design */
+        position: absolute;
+        transition: all 0.3s ease-in-out;
+    }
+    .burger .line:nth-child(1) {
+        top: 12px;
+    }
+    .burger .line:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .burger .line:nth-child(3) {
+        bottom: 8px;
+    }
+    body {
+        margin: 0px 16px 8px 8px;
+    }
+    
+    /* Animation pour transformer le burger en croix */
+    .navigation.open .burger .line:nth-child(1) {
+        top: 50%;
+        transform: rotate(45deg);
+    }
+    .navigation.open .burger .line:nth-child(2) {
+        opacity: 0;
+    }
+    .navigation.open .burger .line:nth-child(3) {
+        top: 50%;
+        transform: rotate(-45deg);
+    }
+    #menu-principal {
+        display: none; /* Masquer la navigation par défaut */
+    }
+    .navigation.open #menu-principal {
+        display: block;
+        position: fixed;
+        top: 4em;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: red; /* Ajustez selon votre design */
+        z-index: 9999;
+        padding-top: 50px; /* Ajustez pour ne pas cacher le header */
+    }
+    .navigation a {
+        margin-right: 40px;
+        text-decoration: none;
+        color: white;
+        justify-content: flex-start !important;
+        align-items: center;
+        font-size: 51px;
+        margin-top: 24%;
+    }
+
+    /*formulaire*/
+    .wpcf7 {
+        width: 100%;
+        height: 100%;
+        padding-top: 10%;
+    }
+    .titre-form {
+        width: 100%;
+    }
+    .form-text {
+        right: 36%;
+    }
+    .form-text2 {
+        right: 33%;
+    }
+    .form-text3 {
+        right: 28%;
+    }
+    .form-text4 {
+        right: 30%;
+    }
+    .wpcf7-form {
+        margin-top: 6em;
+    }
+    .ui-dialog-content {
+        min-height: 100% !important;
+    }
+
+    /*page d'acceuil*/
+    .hero_head img {
+        width: 288px;
+        height: 253px;
+        position: relative;
+        right: 3em;
+    }
+    .espace-photo-index {
+        flex-direction: column;
+        align-items: center;
+    }
+    #category-filter, #format-filter, #order-filter {
+        margin: 4px;
+    }
+    .photo-apparenté2 img {
+        width: 317.66px;
+        height: 278.8px;
+    }
+    .event {
+        width: 260px;
+        top: 26%;
+        font-size: 23px;
+        z-index: 1;
     }
 }
