@@ -320,6 +320,27 @@ add_action('wp_enqueue_scripts', 'enqueue_lightbox_script');
 add_action('wp_ajax_filter_photos_by_category', 'filter_photos_by_category');
 add_action('wp_ajax_nopriv_filter_photos_by_category', 'filter_photos_by_category');
 
+// Action pour les utilisateurs connectés
+add_action('wp_ajax_filter_photos_by_format', 'filter_photos_by_format');
+add_action('wp_ajax_nopriv_filter_photos_by_format', 'filter_photos_by_format');
+
+function filter_photos_by_format() {
+    $format_id = $_POST['format_id'];
+
+    // Appeler la fonction display_photos avec le type 'format' et l'ID du format
+    $output = display_photos('format', 0, $format_id); // 0 ou null pour le $category_id si non utilisé
+
+    // Retourner la sortie générée par display_photos
+    echo $output;
+
+    // Terminer la requête AJAX
+    wp_die();
+}
+
+
+
+
+
 function filter_photos_by_category() {
     $category_id = $_POST['category_id'];
     $type = $_POST['type'];
@@ -332,13 +353,11 @@ function filter_photos_by_category() {
 
 
 //////*function display photo*///////
-function display_photos($type, $category_id = null) {
+function display_photos($type, $category_id = null, $format_id = null, $order = 'DESC') {
     $output = ''; // Initialise la variable de sortie
 
     if ($type == 'related') {
         if (is_single()) {
-            error_log('display_photos() appelée pour le type related');
-
             $post_id = get_the_ID();
             $terms = get_the_terms($post_id, 'categorie');
 
@@ -354,7 +373,7 @@ function display_photos($type, $category_id = null) {
                                 'terms' => $term_name,
                             ),
                         ),
-                        'posts_per_page' => 2, 
+                        'posts_per_page' => 2,
                         'orderby' => 'rand',
                     );
                     $related_posts_query = new WP_Query($related_posts_args);
@@ -376,14 +395,14 @@ function display_photos($type, $category_id = null) {
                                                     <div class="imginfoex">            
                                                         <div class="overlay"></div>
                                                         <i class="fas fa-expand expand-icon"></i>
-                                                        <a href="http://motaphoto.local/photo/' . $parent_post_slug . '"><i class="fas fa-eye eye"></i></a>';
+                                                        <a href="' . get_permalink() . '"><i class="fas fa-eye eye"></i></a>';
 
                                 if ($parent_post_slug) {
                                     $output .= '<p class="slug">' . esc_html($parent_post_slug) . '</p>';
                                 }
 
                                 $output .= '<p class="reference">' . get_reference_data() . '</p>
-                                            <p class="term">' . $term_name . '</p>
+                                            <p class="term">' . esc_html($term_name) . '</p>
                                             </div>
                                         </div>
                                     </div>';
@@ -402,7 +421,7 @@ function display_photos($type, $category_id = null) {
                 $output .= 'Erreur lors de la récupération des catégories.';
             }
         }
-    }  elseif ($type == 'random') {
+    } elseif ($type == 'random') {
         $args = array(
             'post_type' => 'photo', 
             'post_status' => 'publish',
@@ -420,6 +439,16 @@ function display_photos($type, $category_id = null) {
             );
         }
     
+        if ($format_id) { // Vérifie si un format est sélectionné
+            $args['tax_query'][] = array(
+                array(
+                    'taxonomy' => 'format',
+                    'field' => 'term_id',
+                    'terms' => $format_id,
+                )
+            );
+        }
+
         $query = new WP_Query($args);
     
         while ($query->have_posts()) : $query->the_post();
@@ -455,60 +484,71 @@ function display_photos($type, $category_id = null) {
         endwhile;
     
         wp_reset_postdata();
-    } elseif ($type == 'category') {
-        if ($category_id) { // Vérifie si une catégorie est sélectionnée
-            $args = array(
-                'post_type' => 'photo', 
-                'post_status' => 'publish',
-                'posts_per_page' => -1, // Afficher toutes les images de la catégorie
-                'orderby' => 'date', // Ordre par date par défaut, à modifier selon vos besoins
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => 'categorie',
-                        'field' => 'term_id',
-                        'terms' => $category_id,
-                    )
-                )
+    } elseif ($type == 'category' || $type == 'format' || $type == 'combined') {
+        // Arguments de base pour la requête WP_Query
+        $args = array(
+            'post_type' => 'photo',
+            'post_status' => 'publish',
+            'posts_per_page' => -1, // Afficher toutes les images
+            'orderby' => 'date',
+            'order' => $order,
+        );
+
+        // Filtrage par catégorie et/ou format
+        $tax_query = array();
+        if ($category_id) {
+            $tax_query[] = array(
+                'taxonomy' => 'categorie',
+                'field' => 'term_id',
+                'terms' => $category_id,
             );
+        }
+        if ($format_id) {
+            $tax_query[] = array(
+                'taxonomy' => 'format',
+                'field' => 'term_id',
+                'terms' => $format_id,
+            );
+        }
+        if (!empty($tax_query)) {
+            $args['tax_query'] = $tax_query;
+        }
 
-            $query = new WP_Query($args);
+        $query = new WP_Query($args);
 
-            while ($query->have_posts()) : $query->the_post();
+        while ($query->have_posts()) : $query->the_post();
 
-                $parent_post_id = wp_get_post_parent_id(get_the_ID());
-                $parent_post = get_post($parent_post_id);
-                $parent_post_slug = ($parent_post) ? $parent_post->post_name : '';
-                $content = get_post_field('post_content', get_the_ID());
-                preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches);
+            $parent_post_id = wp_get_post_parent_id(get_the_ID());
+            $parent_post = get_post($parent_post_id);
+            $parent_post_slug = ($parent_post) ? $parent_post->post_name : '';
+            $content = get_post_field('post_content', get_the_ID());
+            preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches);
 
-                if (!empty($matches[1])) {
-                    $output .= '<div class="photo-ajust">
-                                    <div class="photo-wrapper">
-                                        <img src="' . esc_url($matches[1][0]) . '" class="photo-apparenté2" alt="' . esc_attr(get_the_title()) . '">       
-                                        <div class="imginfoex">            
-                                            <div class="overlay"></div>
-                                            <i class="fas fa-expand expand-icon"></i>
-                                            <a href="' . get_permalink() . '"><i class="fas fa-eye eye"></i></a>';
+            if (!empty($matches[1])) {
+                $output .= '<div class="photo-ajust">
+                                <div class="photo-wrapper">
+                                    <img src="' . esc_url($matches[1][0]) . '" class="photo-apparenté2" alt="' . esc_attr(get_the_title()) . '">       
+                                    <div class="imginfoex">            
+                                        <div class="overlay"></div>
+                                        <i class="fas fa-expand expand-icon"></i>
+                                        <a href="' . get_permalink() . '"><i class="fas fa-eye eye"></i></a>';
 
-                    if ($parent_post_slug) {
-                        $output .= '<p class="slug">' . esc_html($parent_post_slug) . '</p>';
-                    }
-
-                    $output .= '<p class="reference">' . get_reference_data() . '</p>
-                                <p class="term">' . esc_html(get_the_terms(get_the_ID(), 'categorie')[0]->name) . '</p>
-                                </div>
-                            </div>
-                        </div>';
-                } else {
-                    $output .= 'Aucune image trouvée dans le contenu de l\'article.';
+                if ($parent_post_slug) {
+                    $output .= '<p class="slug">' . esc_html($parent_post_slug) . '</p>';
                 }
 
-            endwhile;
+                $output .= '<p class="reference">' . get_reference_data() . '</p>
+                            <p class="term">' . esc_html(get_the_terms(get_the_ID(), 'categorie')[0]->name) . '</p>
+                            </div>
+                        </div>
+                    </div>';
+            } else {
+                $output .= 'Aucune image trouvée dans le contenu de l\'article.';
+            }
 
-            wp_reset_postdata();
-        } else {
-            $output .= 'Aucune catégorie sélectionnée.';
-        }
+        endwhile;
+
+        wp_reset_postdata();
     } else {
         $output .= 'Type de requête non valide.';
     }
@@ -517,13 +557,25 @@ function display_photos($type, $category_id = null) {
 }
 
 
+
 add_action('wp_ajax_filter_photos', 'ajax_filter_photos');
 add_action('wp_ajax_nopriv_filter_photos', 'ajax_filter_photos');
 
 function ajax_filter_photos() {
+    // Récupération des données envoyées en POST
     $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : 'random';
     $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+    $format_id = isset($_POST['format_id']) ? intval($_POST['format_id']) : 0;
+    $order = isset($_POST['order']) ? sanitize_text_field($_POST['order']) : 'DESC';
 
-    echo display_photos($type, $category_id);
+    // Vérification du type de requête
+    if ($type === 'combined') {
+        // Filtrer par catégorie, format et ordre
+        echo display_photos('combined', $category_id, $format_id, $order);
+    } else {
+        echo 'Type de requête non valide.';
+    }
+
+    // Termination de la requête AJAX
     wp_die();
 }

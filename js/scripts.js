@@ -14,6 +14,8 @@ jQuery(document).ready(function($) {
         // Autres options selon vos besoins
     });
 
+    var contactMenuOpen = false; // Variable pour suivre l'état de la modale du menu
+
     // Activer la fermeture de la fenêtre modale du menu
     $('#modal-menu').on('click', function(e) {
         var target = $(e.target);
@@ -28,8 +30,8 @@ jQuery(document).ready(function($) {
     // Activer la fermeture de la fenêtre modale du contact
     $('#modal-contact').on('click', function(e) {
         var target = $(e.target);
+        console.log(target.hasClass('popup-overlay'))
         if (target.hasClass('popup-overlay') || !target.closest('.wpcf7').length) {
-            $('.popup-overlay').addClass('fade-out-overlay');
             setTimeout(function() {
                 modalContact.dialog('close');
             }, 500);
@@ -39,7 +41,14 @@ jQuery(document).ready(function($) {
     // Écouter le clic sur l'élément du menu "Contact"
     contactMenuButton.on('click', function(e) {
         e.preventDefault();
-        modalMenu.dialog('open');
+        if (!contactMenuOpen) {
+            contactMenuOpen = true; // Marquer la modale comme ouverte
+            modalMenu.dialog('open');
+            // Réinitialiser la variable lorsque la modale se ferme
+            modalMenu.on('dialogclose', function() {
+                contactMenuOpen = false;
+            });
+        }
     });
 
     // Écouter le clic sur le bouton "Contact"
@@ -48,12 +57,13 @@ jQuery(document).ready(function($) {
         var photoRef = $(this).data('réf.photo');
         $('#referenceField').val(photoRef);
         // Réinitialiser la classe pour garantir que l'animation fonctionne correctement lors de l'ouverture suivante
-        $('.popup-overlay').removeClass('fade-out-overlay');
+       $('.popup-overlay').removeClass('fade-out-overlay');
         modalContact.dialog('open');
     });
 
     // ... Autres fonctionnalités selon vos besoins
 });
+
 
 
 
@@ -283,11 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-
-
-
-
 //burger menu
 jQuery(document).ready(function($) {
     var page = 1;
@@ -326,10 +331,107 @@ jQuery(document).ready(function($) {
 
 // css filtre 
 
+// cacher button charger-plus
+jQuery(document).ready(function($) {
+    // Fonction pour gérer la visibilité du bouton "Charger plus"
+    function toggleLoadMoreButton() {
+        var loadMoreButton = $('#charger-plus-btn');
+        var categoryValue = $('#category-filter').val();
+        var formatValue = $('#format-filter').val();
+
+        if (loadMoreButton.length) {
+            if (categoryValue === '' && formatValue === '') {
+                loadMoreButton.removeClass('hidden'); // Affiche le bouton "Charger plus"
+            } else {
+                loadMoreButton.addClass('hidden'); // Masque le bouton "Charger plus"
+            }
+        }
+    }
+
+    // Appel initial pour vérifier l'état au chargement de la page
+    toggleLoadMoreButton();
+
+    // Écouteurs d'événement pour les changements de sélection dans les filtres
+    $('#category-filter, #format-filter').change(function() {
+        toggleLoadMoreButton(); // Appelle la fonction de gestion de visibilité du bouton
+    });
+});
+
+
+    
+
+// burger menu
+
+
+jQuery(document).ready(function($) {
+    $('.burger').click(function() {
+        $('.navigation').toggleClass('open');
+        $('header').toggleClass('menu-open');
+
+        // Ajouter la classe 'hidden' aux éléments spécifiés lorsque le menu est ouvert
+        if ($('.navigation').hasClass('open')) {
+            $('body').addClass('no-scroll'); // Ajoutez la classe pour désactiver le scroll
+            $('.photo-apparenté, .photo-apparenté2 img, .hero_head img, .hero-container').addClass('hidden');
+        } else {
+            $('body').removeClass('no-scroll'); // Retirez la classe pour activer le scroll
+            $('.photo-apparenté, .photo-apparenté2 img, .hero_head img,  .hero-container').removeClass('hidden');
+        }
+    });
+
+    // Retirer la classe 'no-scroll' lorsque le menu est fermé
+    $('.burger.open').click(function() {
+        $('body').removeClass('no-scroll');
+        $('.photo-apparenté, .photo-apparenté2 img').removeClass('hidden');
+    });
+
+    // Optionally, close the menu when a menu item is clicked
+    $('#menu-principal a').click(function() {
+        $('.navigation').removeClass('open');
+        $('header').removeClass('menu-open');
+        $('body').removeClass('no-scroll');
+        $('.photo-apparenté, .photo-apparenté2 img').removeClass('hidden');
+    });
+});
 
 
 
 
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var categoryFilter = document.getElementById('category-filter');
+    var formatFilter = document.getElementById('format-filter');
+    var orderFilter = document.getElementById('order-filter');
+
+    categoryFilter.addEventListener('change', applyFilters);
+    formatFilter.addEventListener('change', applyFilters);
+    orderFilter.addEventListener('change', applyFilters);
+
+    function applyFilters() {
+        var category_id = categoryFilter.value;
+        var format_id = formatFilter.value;
+        var order = orderFilter.value;
+
+        var data = {
+            'action': 'filter_photos', // Action pour identifier le traitement côté serveur
+            'type': 'combined', // Type de requête pour afficher les images en fonction des filtres sélectionnés
+            'category_id': category_id,
+            'format_id': format_id,
+            'order': order // Ajout du paramètre d'ordre
+        };
+
+        // Envoyer la requête AJAX au serveur
+        jQuery.post("/wp-admin/admin-ajax.php", data, function(response) {
+            var photosContainer = document.querySelector('.photo-index');
+            if (photosContainer) {
+                photosContainer.innerHTML = response; // Mettre à jour le contenu avec les nouvelles photos
+            } else {
+                console.error("Element with class 'photo-index' not found.");
+            }
+        });
+    }
+});
 
 
 
