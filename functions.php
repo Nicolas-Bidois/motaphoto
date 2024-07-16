@@ -31,8 +31,6 @@ add_action('after_setup_theme', 'enregistrement_des_menus');
     wp_enqueue_script('lightbox-script', get_template_directory_uri() . '/js/lightbox.js', array('jquery'), '', true);
 
     // Définition de 'ajaxurl' pour les scripts 'scripts' et 'lightbox-script'
-    /*wp_localize_script('scpt', 'ajaxurl', admin_url('admin-ajax.php'));
-    wp_localize_script('lieeraghtbox-script', 'ajaxurl', admin_url('admin-ajax.php'));*/
     wp_localize_script( 'ajax-script', 'my_ajax_object',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 }
