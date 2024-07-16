@@ -87,80 +87,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-
-
-/*
-(function($) {
-    $(document).ready(function() {
-        var offset = 8; // Le nombre initial d'images affichées
-        var imagesPerPage = 8; // Nombre d'images à afficher à chaque requête
-        var displayedIds = []; // Tableau pour stocker les ID des images déjà affichées
-    
-        // Fonction pour charger plus d'images
-        function chargerPlus() {
-            $.ajax({
-                url: window.frontendajax ? frontendajax.ajaxurl : null,
-                type: 'POST',
-                data: {
-                    action: 'charger_plus_photos',
-                    offset: offset,
-                    images_per_page: imagesPerPage,
-                    displayed_ids: displayedIds.join(',') // Envoyez les ID déjà affichés au serveur
-                },
-                success: function(response) {
-                    $('.photo-apparenté2').append(response);
-                    offset += imagesPerPage; // Mettez à jour l'offset pour la prochaine requête
-                    updateDisplayedIds(response); // Mettez à jour les ID affichés
-                }
-            });
-        }
-
-        // Fonction pour mettre à jour les ID affichés
-        function updateDisplayedIds(response) {
-            // Récupérer les ID des nouvelles images
-            var newIds = $(response).find('.photo-apparenté').map(function() {
-                return $(this).data('image-id');
-            }).get();
-            // Concaténer les nouveaux IDs avec les IDs déjà affichés
-            displayedIds = displayedIds.concat(newIds);
-            console.log(response)
-        }
-
-        // Gérez le clic sur le bouton "Charger plus"
-        $('#charger-plus-btn').on('click', function() {
-            chargerPlus();
-        });
-    });
-})(jQuery);
-
-*/
-
-
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Le DOM est chargé.");
 
- /*   // JavaScript pour afficher les informations supplémentaires au survol de la photo
-    document.querySelectorAll('.photo-apparenté, .photo-ajust').forEach(item => {
-        console.log("Ajout des événements de survol pour .photo-apparenté et .photo-apparenté2.");
-        item.addEventListener('mouseover', event => {
-            const overlayElement = item.childNodes.querySelector('.imginfoex');
-            if (overlayElement) {
-                overlayElement.style.opacity = '1';
-            } else {
-                console.error('Élément .imginfoex non trouvé pour', item);
-            }
-        });
-    
-        item.addEventListener('mouseout', event => {
-            const overlayElement = item.childNodes.querySelector('.imginfoex');
-            if (overlayElement) {
-                overlayElement.style.opacity = '0';
-            } else {
-                console.error('Élément .imginfoex non trouvé pour', item);
-            }
-        });
-    });
-*/
+
     // Récupérer tous les éléments ayant la classe "expand-icon"
     var expandIcons = document.querySelectorAll('.expand-icon');
     console.log("Nombre d'icônes d'agrandissement trouvées : " + expandIcons.length);
