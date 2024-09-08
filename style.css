@@ -568,7 +568,7 @@ option {
     
 }
 .hero_head img {
-    width: 1440px;
+    width: 102.7%;
     height: 962px;
     object-fit: cover;
 }
@@ -602,6 +602,9 @@ option {
     overflow: hidden;
     position: fixed;
     width: 100%;
+}
+.wp-block-image {
+    margin-left: 0px;
 }
 
 /* responsive mobile*/
@@ -834,7 +837,7 @@ option {
 
     /*page d'acceuil*/
     .hero_head img {
-        width: 330px;
+        width: 124%;
         height: 253px;
         position: relative;
         right: 20px;
@@ -849,23 +852,28 @@ option {
         margin: 4px;
     }
     .photo-apparenté2 img {
-        width: 317.66px;
-        height: 278.8px;
+        width: 300px;
+        height: 267.8px;
+        margin: 17px 17px 22px 17px;
     }
     .event {
         width: 94%;
-        top: 18%;
+        top: 26%;
         font-size: 23px;
         z-index: 1;
     }
+    .wp-block-image {
+            margin-left: 0px;
+        }
 }
 @media  screen and (max-width: 360px) {
     #category-filter, #format-filter, #order-filter {
             width: 220px;
         }
         .hero_head img {
-            width: 280px;
+            width: 129%;
         }
+        
     }
 
 @media only screen and (min-width: 768px) and (max-width: 900px) {
@@ -1269,7 +1277,7 @@ option {
     }
     .event {
         width: 94%;
-        top: 22%;
+        top: 2%;
         font-size: 23px;
         z-index: 1;
     }
