@@ -596,7 +596,7 @@ option {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 .no-scroll {
     overflow: hidden;
@@ -1053,7 +1053,7 @@ option {
 
     /*page d'acceuil*/
     .hero_head img {
-        width: 42em;
+        width: 107%;
         height: 16em;
         right: 20px;
         display: flex;
@@ -1074,7 +1074,7 @@ option {
     }
     .event {
         width: 94%;
-        top: 19%;
+        top: 27%;
         font-size: 23px;
         z-index: 1;
     }
@@ -1133,12 +1133,15 @@ option {
     }
     .photos-apparentées {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        flex-direction: row;
         align-items: center;
     }
     .photos-apparentées h3 {
         padding-left: 1em;
         margin-bottom: 2em;
+        display: flex;
+        justify-content: center;
     }
 
     .afficher-toutes-les-photos {
@@ -1228,24 +1231,24 @@ option {
 
     /*formulaire*/
     .wpcf7 {
-        width: 100%;
+        width: 47%;
         height: 100%;
         padding-top: 10%;
     }
     .titre-form {
-        width: 100%;
+        width: 47%;
     }
     .form-text {
-        right: 36%;
+        right: 25%;
     }
     .form-text2 {
-        right: 33%;
+        right: 22%;
     }
     .form-text3 {
-        right: 28%;
+        right: 20%;
     }
     .form-text4 {
-        right: 30%;
+        right: 22%;
     }
     .wpcf7-form {
         margin-top: 6em;
@@ -1256,7 +1259,7 @@ option {
 
     /*page d'acceuil*/
     .hero_head img {
-        width: 58em;
+        width: 63em;
         height: 18em;
         right: 20px;
         display: flex;
@@ -1267,6 +1270,8 @@ option {
     }
     .imginfoex {
         display: none;
+        width: 97%;
+        height: 100%;
     }
     #category-filter, #format-filter, #order-filter {
         margin: 4px;
@@ -1277,7 +1282,7 @@ option {
     }
     .event {
         width: 94%;
-        top: 2%;
+        top: 30%;
         font-size: 23px;
         z-index: 1;
     }
