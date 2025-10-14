@@ -78,8 +78,3 @@ Elle doit pouvoir :
 - Requêtes API limitées pour réduire l’impact environnemental  
 
 ---
-
-## 🧭 Prochaines évolutions
-- Intégration WooCommerce pour la commande d’images HD  
-- Gestion d’espace client personnalisé (login / commandes)  
-- Mise en ligne d’une démo publique du thème  
